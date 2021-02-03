@@ -1,6 +1,7 @@
 package socketio
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/googollee/go-socket.io/engineio"
@@ -76,6 +77,7 @@ func (s *Server) OnEvent(namespace, event string, f interface{}) {
 
 // Serve serves go-socket.io server
 func (s *Server) Serve() error {
+	log.Println("rao socketIO start ....")
 	for {
 		conn, err := s.engine.Accept()
 		//todo maybe need check EOF from Accept()

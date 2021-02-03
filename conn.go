@@ -2,6 +2,7 @@ package socketio
 
 import (
 	"io"
+	"log"
 	"net"
 	"net/http"
 	"net/url"
@@ -68,6 +69,14 @@ func newConn(c engineio.Conn, handlers map[string]*namespaceHandler) error {
 	return nil
 }
 
+func (c *conn) CloseV1() {
+	log.Println("rao closeV1:  ")
+	if _, ok := <-c.quitChan; ok {
+		log.Println("close ......")
+		close(c.quitChan)
+	}
+}
+
 func (c *conn) Close() error {
 	var err error
 
@@ -81,7 +90,7 @@ func (c *conn) Close() error {
 			}
 		}
 		err = c.Conn.Close()
-
+		log.Println("rao close ")
 		close(c.quitChan)
 	})
 
